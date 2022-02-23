@@ -27,3 +27,10 @@ After running the two docker machines, a connection will be established between 
 
 # Evaluation and expected results
 ## Replicating the results Section 7.3:
+
+### Latency
+
+
+### Service throughput
+### Memory  and  storage  overhead
+
