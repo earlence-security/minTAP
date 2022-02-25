@@ -14,9 +14,10 @@ Everything is provided within the containers. So no need to install anything bey
 ## Data sets
 Among the crawled IFTTT rules, in this artifact we are using 554 IFTTT rules that contain filter code. The filter code files are in JavaScript.
 #  Installation
-Please follow the following instructions for installing and running the docker machines.
+Please follow the following instructions for installing and running the docker machine.
 
 ```
+
 ```
 
 # Experiment workflow
