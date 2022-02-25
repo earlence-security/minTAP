@@ -213,7 +213,7 @@ def new_test_data():
 
         print(f"{bcolors.OKCYAN}Original: {event}{bcolors.ENDC}")
 
-        response = requests.post('http://35.222.210.67:3000/filter',
+        response = requests.post('http://localhost:3000/filter',
                                  headers={"Content-Type": "application/json; charset=utf-8"},
                                  data=json.dumps({'data': {
                                      'Subreddit': row[1],
