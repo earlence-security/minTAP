@@ -17,7 +17,8 @@ Among the crawled IFTTT rules, in this artifact we are using 554 IFTTT rules tha
 Please follow the following instructions for installing and running the docker machine.
 
 ```
-
+docker build -t mintap .
+docker run -it mintap
 ```
 
 # Experiment workflow
