@@ -4,11 +4,10 @@ import secrets
 
 import sqlite3
 import requests
-from flask import Blueprint, request, redirect
+from flask import Blueprint, request, redirect, current_app
 
 ifttt_redirect_uri = ''
-oauth_code = ''
-access_token = ''
+oauth_code = secrets.token_hex(40)
 
 code_challenge = ''
 public_key = ''
@@ -25,16 +24,6 @@ def authorize():
     global ifttt_redirect_uri
     ifttt_redirect_uri = request.args['redirect_uri']
 
-    reddit_auth_url = f'https://ssl.reddit.com/api/v1/authorize?response_type=code&' \
-                      f'scope=edit,history,identity,modconfig,modflair,modlog,modposts,mysubreddits,privatemessages,read,save,submit,subscribe,vote&' \
-                      f'client_id={client_id}&' \
-                      f'redirect_uri=http://35.222.210.67:5000/auth/callback&' \
-                      f'duration=permanent&' \
-                      f'state={state}'
-
-    print('auth')
-    # print(reddit_auth_url)
-
     if 'code_challenge' in request.args:
         print('code_challenge received')
         global code_challenge
@@ -45,20 +34,20 @@ def authorize():
         global public_key
         public_key = request.args['public_key']
 
-    return redirect(reddit_auth_url)
-
-
-@bp.route("callback", methods=['GET', 'POST'])
-def callback():
-    state = request.args['state']
-
-    global oauth_code
-    oauth_code = request.args['code']
-
-    print('callback')
-    print(request.args)
-
     return redirect(f'{ifttt_redirect_uri}?state={state}&code={oauth_code}')
+
+
+# @bp.route("callback", methods=['GET', 'POST'])
+# def callback():
+#     state = request.args['state']
+#
+#     global oauth_code
+#     oauth_code = request.args['code']
+#
+#     print('callback')
+#     print(request.args)
+#
+#     return redirect(f'{ifttt_redirect_uri}?state={state}&code={oauth_code}')
 
 
 @bp.route("token", methods=['GET', 'POST'])
@@ -67,33 +56,20 @@ def token():
     print(request.form)
 
     code = request.form['code']
-    # client_id = request.form['client_id']
-    # client_secret = request.form['client_secret']
+    client_id = request.form['client_id']
+    client_secret = request.form['client_secret']
+
+    if oauth_code != code or current_app.config['CLIENT_ID'] != client_id \
+            or current_app.config['CLIENT_SECRET'] != client_secret:
+        return '', 400
 
     if 'code_verifier' not in request.form:
-        return {"token_type": "Bearer", "access_token": secrets.token_hex(40)}
+        return {"token_type": "Bearer", "access_token": current_app.config['ACCESS_TOKEN']}
 
-    reddit_token_url = 'https://www.reddit.com/api/v1/access_token'
+    code_verifier = request.form['code_verifier']
 
-    response = requests.post(
-        url=reddit_token_url,
-        headers={
-            'User-agent': 'mock ifttt',
-            "Authorization": "Basic a3lWXzIwWTdIc092UlE6cVdnZ3BOcG5ESDJxYzcyUHk1MEpXYkYwTDJn",
-            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        },
-        data={
-            "grant_type": "authorization_code",
-            "code": code,
-            "redirect_uri": "http://35.222.210.67:5000/auth/callback",
-        }
-    )
+    if code_verifier != code_challenge:
+        return '', 400
 
-    print('response from reddit')
-    data = json.loads(response.content)
-    print(data)
 
-    global access_token
-    access_token = data['access_token']
-
-    return {"token_type": "Bearer", "access_token": access_token}
+    return {"token_type": "Bearer", "access_token": secrets.token_hex(40)}

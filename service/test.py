@@ -10,21 +10,18 @@ def test_setup():
         return '', 401
 
     data = {'data':
-                {'samples':
-                     {'triggers':
-                          {'new_top_post':
-                               {'subreddit': 'worldnews',
-                                'filter_code': secrets.token_hex(32),
-                                'code_signature': secrets.token_hex(32)},
-                           'new_test_data':
-                               {'subreddit': 'worldnews',
-                                'filter_code': secrets.token_hex(32),
-                                'code_signature': secrets.token_hex(32)},
+        {'samples':
+            {'triggers':
+                {
+                    'mintap_toy_trigger':
+                        {'author': 'Alice',
+                         'filter_code': secrets.token_hex(32),
+                         'code_signature': secrets.token_hex(32)},
 
-                          }
-                      },
-                 "accessToken": "taSvYgeXfM1HjVISJbUXVBIw1YUkKABm"
-                 }
-            }
+                }
+            },
+            "accessToken": current_app.config['ACCESS_TOKEN']
+        }
+    }
 
     return data
