@@ -39,5 +39,12 @@ Following is a description of the instructions for running various components of
 
 ## Reporducing privacy benefit
 
+1- Go to the directory `rule_analysis`. 
+
+2- Follow the instructions in the `README` file
+
+3- A plot will be generated called `fig9.pdf`
+
+
 ## Reporoducing latency and throughput experiments
 
