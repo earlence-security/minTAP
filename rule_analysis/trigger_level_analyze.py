@@ -1,11 +1,13 @@
 import json
-import csv
-import random
+import sys
 import pickle
 from pathlib import Path
-from collections import Counter
 
 from helper import get_ingredients_used
+
+
+if len(sys.argv) != 2 or sys.argv[1] not in ['all', 'filter']:
+    print('Usage: python3 trigger_level_analyze.py all|filter')
 
 services = {}
 
@@ -44,19 +46,18 @@ for applet_file in Path('data/applet').iterdir():
         invalid_applet.append(applet_file.stem)
         continue
 
-    # if applet['filter_code'] is None or len(applet['filter_code']) == 0:
-    #     continue
+    if sys.argv[1] == 'filter':
+        if applet['filter_code'] is None or len(applet['filter_code']) == 0:
+            continue
 
 
     if applet_trigger_channel not in services:
-        print(f'"{applet_trigger_channel}" no longer available')
         continue
 
     trigger_data = next(
         (t for t in services[applet_trigger_channel]['public_triggers'] if t['module_name'] == applet_trigger), None)
 
     if trigger_data is None:
-        print(f'"{applet_trigger_channel}" -> "{applet_trigger}" no longer available')
         continue
 
     if applet_trigger_channel in trigger_classification and \
@@ -122,26 +123,6 @@ def keyword_subset(unique_kw, must_kw, avoid_kw):
     return subset
 
 
-# unused_attributes = []
-#
-#
-# for applet_id, data in private_applet.items():
-#     used_ingredients = data['used_ingredients']
-#     all_ingredients = data['all_ingredients']
-#
-#     with Path(f'data/applet/{applet_id}.json').open() as f:
-#         applet = json.load(f)['data']['applet']
-#
-#     applet_trigger_channel = applet['applet_trigger']['channel_module_name']
-#
-#     applet_trigger = applet['applet_trigger']['module_name']
-#
-#
-#     unused_attributes += [(applet_trigger_channel, applet_trigger, ingredient) for ingredient in Diff(all_ingredients, used_ingredients)]
-
-
-# samples = random.sample(unused_attributes, 100)
-
 
 with open('keywords.txt') as f:
     keyword_list = f.readlines()
@@ -151,7 +132,6 @@ for line in keyword_list:
     unique_kw = [keyword.strip() for keyword in keywords[0].split(',')]
     must_kw = [keyword.strip() for keyword in keywords[1].split(',')]
     avoid_kw = [keyword.strip() for keyword in keywords[2].split(',')]
-    print(*keyword_count(unique_kw, must_kw, avoid_kw))
 
 subsets = []
 
@@ -162,8 +142,6 @@ for line in keyword_list:
     avoid_kw = [keyword.strip() for keyword in keywords[2].split(',')]
     subsets.append(keyword_subset(unique_kw, must_kw, avoid_kw))
 
-for subset in subsets:
-    print(Counter(subset))
 
 missed = []
 subset2 = [set(subset) for subset in subsets]
@@ -173,25 +151,8 @@ for applet_id, data in private_applet.items():
 
     missed += [unused_attribute for unused_attribute in Diff(all_ingredients, used_ingredients) if
                not any(unused_attribute in subset for subset in subset2)]
-print('missed:')
-print(Counter(missed))
 
 
 with open('trigger_level.p', 'wb') as f:
     pickle.dump([private_applet, subset2], f)
 
-# with open('private_analysis.csv', 'w') as f:
-#
-#     writer = csv.DictWriter(f, fieldnames=['applet_id', 'all_ingredients', 'num_all_ingredients',
-#                                            'used_ingredients', 'num_used_ingredients', 'num_unused_ingredients'])
-#
-#     writer.writeheader()
-#     for applet_id, data in private_applet.items():
-#         writer.writerow({
-#             'applet_id': applet_id,
-#             'all_ingredients': data['all_ingredients'],
-#             'num_all_ingredients': len(data['all_ingredients']),
-#             'used_ingredients': data['used_ingredients'],
-#             'num_used_ingredients': len(data['used_ingredients']),
-#             'num_unused_ingredients': len(data['all_ingredients']) - len(data['used_ingredients'])
-#         })
