@@ -43,20 +43,20 @@ function filter_plain(Reddit) {
 
 
 const classCode = `
-class newTestData {
+class mintapToyTrigger {
 
     constructor(data) {
-        this.Subreddit_ = data.Subreddit;
+        this.Author_ = data.Author;
         this.Title_ = data.Title;
         this.Content_ = data.Content;
         this.PostUrl_ = data.PostUrl;
-        this.monitor = {Subreddit: false, Title: false, Content: false, PostUrl: false, };
+        this.monitor = {Author: false, Title: false, Content: false, PostUrl: false, };
     }
 
 
-    get Subreddit() {
-        this.monitor.Subreddit = true;
-        return this.Subreddit_;
+    get Author() {
+        this.monitor.Author = true;
+        return this.Author_;
     }
 
     get Title() {
@@ -98,7 +98,7 @@ class DummyAction {
 
 
 
-let isolate = new ivm.Isolate({ memoryLimit: 8 });
+let isolate = new ivm.Isolate({ memoryLimit: 128 });
 // let context =  isolate.createContextSync();
 
 // let script =  isolate.compileScriptSync(filter + '');
@@ -123,6 +123,9 @@ fastify.post('/filter', async (request, reply) => {
     let input = new ivm.ExternalCopy(request.body.data)
 
     let result = await fnReference.apply(undefined, [input]);
+
+    input.release();
+    context.release();
 
     if (result == null) {
         return {'result' : 'skip'}
