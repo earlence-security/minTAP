@@ -35,6 +35,6 @@ where `DOCKER URL` is the public address of the host machine running the docker 
 
 2. After the rule is run, you can check each rule's activity log to confirm if the unneeded data are sanitized (i.e. appears as none).
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshot_0.jpg)
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshot_1.jpg)
