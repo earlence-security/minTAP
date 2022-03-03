@@ -19,7 +19,7 @@ Please follow the following instructions for installing and running the docker m
 ```
 cd Server
 docker build -t mintap .
-docker run -it mintap
+docker run -it -p 127.0.0.1:5000:5000 mintap
 ```
 
 # Experiment workflow

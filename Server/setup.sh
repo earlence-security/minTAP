@@ -11,4 +11,5 @@ cd ..
 export FLASK_APP=service
 mkdir instance
 flask init-db
-flask run > /mintap_log/flask_log 2>&1 &
+
+flask run --host=0.0.0.0 > /mintap_log/flask_log 2>&1 &
