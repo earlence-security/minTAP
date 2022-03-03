@@ -1,18 +1,20 @@
 {
-  "name": "Getting Started Example",
+  "name": "minTAP extension",
   "version": "1.2",
-  "description": "Build an Extension!",
+  "description": "minTAP extension!",
   "permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "tabs", "activeTab", "storage"],
   "background": {
     "scripts": [
       "background.js"
     ]
   },
-  "content_scripts": [{
-    "matches": ["*://platform.ifttt.com/p/*/applets/new"],
+  "content_scripts": [
+    {
+    "matches": ["*://ifttt.com/p/*/applets/new", "*://ifttt.com/services/*/applets/*/edit", "*://ifttt.com/p/*/applets/*/edit"],
     "js": ["lib/refactor.browser.js", "content.js"],
     "run_at": "document_idle"
-  }],
+    }
+  ],
   "icons": {
     "16": "images/get_started16.png",
     "32": "images/get_started32.png",
