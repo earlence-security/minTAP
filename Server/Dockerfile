@@ -21,7 +21,7 @@ ENV NODE_VERSION=10.19.0
 RUN apt-get update && apt-get install -y python3.6 python3-distutils python3-pip python3-apt
 
 RUN echo "Python Packages" 
-RUN pip3 install flask requests praw apscheduler click celery
+RUN pip3 install flask requests cryptography
 
 WORKDIR minTAP
 ADD isolated_server isolated_server
