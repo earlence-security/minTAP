@@ -7,12 +7,19 @@ This folder contains the implementation of a minTAP-compatible service and the i
 Everything is provided within the containers. So no need to install anything beyond that. 
 
 ##  Installation
-Please follow the following instructions for installing and running the docker machine.
+
+1. Install docker
 
 ```
-cd Server
-docker build -t mintap .
-docker run -it -p 127.0.0.1:5000:5000 mintap
+sudo apt  install docker.io
+```
+
+2. Follow the instructions below for setting up the docker container (make sure inbound traffic is allowed on port `5000`).
+
+```
+cd mintap/Server
+sudo docker build -t mintap .
+sudo docker run -it -p 127.0.0.1:5000:5000 mintap
 ```
 
 ## Usage
@@ -22,7 +29,7 @@ The service is registered as `minTAP example service` in IFTTT and provides a te
 1. You may manually fire the trigger with the curl command:
 
 ```
-curl -X "POST" "[DOCKER URL]/ifttt/v1/triggers/feed_test_data" \
+curl -X "POST" "[DOCKER URL]:5000/ifttt/v1/triggers/feed_test_data" \
      -H 'Content-Type: application/json; charset=utf-8' \
      -d $'{
   "author": "Alice",
