@@ -19,7 +19,7 @@ sudo apt  install docker.io
 ```
 cd mintap/Server
 sudo docker build -t mintap .
-sudo docker run -it -p 127.0.0.1:5000:5000 mintap
+sudo docker run -d -p 5000:5000 mintap
 ```
 
 ## Usage
@@ -42,6 +42,6 @@ where `DOCKER URL` is the public address of the host machine running the docker 
 
 2. After the rule is run, you can check each rule's activity log to confirm if the unneeded data are sanitized (i.e. appears as none).
 
-![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshot_0.jpg)
+![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshots/screenshot_0.jpg)
 
-![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshot_1.jpg)
+![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshots/screenshot_1.jpg)
