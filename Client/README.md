@@ -29,4 +29,4 @@ This extension supports any IFTTT rules/applets that use minTAP-compatible trigg
 
 ![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshots/screenshot_4.png)
 
-If the applet is using the `Toy Trigger` from our `minTAP example service`, see the server's [README](Server/README.md) on how to triggering the applet.
+If the applet is using the `Toy Trigger` from our `minTAP example service`, see the server's [README](/Server/README.md) on how to triggering the applet.
