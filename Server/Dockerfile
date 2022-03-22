@@ -25,5 +25,5 @@ WORKDIR /minTAP/isolated_server
 RUN npm install
 
 WORKDIR /minTAP
-RUN touch key.pub
+ENTRYPOINT /minTAP/setup.sh
 
