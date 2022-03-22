@@ -71,8 +71,8 @@ def toy_trigger():
     signature = base64.b64decode(request_body['triggerFields']['code_signature'])
     print(minimizer.encode())
     print(signature)
-    pk = load_pem_public_key(Path(current_app.config['PUBLIC_KEY_FILE']).read_bytes())
     try:
+        pk = load_pem_public_key(Path(current_app.config['PUBLIC_KEY_FILE']).read_bytes())
         pk.verify(signature, minimizer.encode(), padding.PKCS1v15(), hashes.SHA256())
     except:
         print('signature error')
@@ -190,8 +190,8 @@ def bench():
 
         minimizer = unquote(test_input['filter_code'])
         signature = base64.b64decode(test_input['code_signature'])
-        pk = load_pem_public_key(Path(current_app.config['PUBLIC_KEY_FILE']).read_bytes())
         try:
+            pk = load_pem_public_key(Path(current_app.config['PUBLIC_KEY_FILE']).read_bytes())
             pk.verify(signature, minimizer.encode(), padding.PKCS1v15(), hashes.SHA256())
         except:
             pass
