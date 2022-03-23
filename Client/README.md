@@ -15,7 +15,12 @@ Please follow the Step 2 in this [Chrome help page](https://support.google.com/c
 
 This extension supports any IFTTT rules/applets that use minTAP-compatible trigger. 
 
-1. Open an existing applet (for example, by going to `https://ifttt.com/p/[user-id]/applets/private`, select one of the applets that uses a minTAP-compatible trigger, and click 'Edit')
+0. Make sure the minTAP-compatible trigger service is connected. For example, to connect our toy `minTAP example service`, go to https://ifttt.com/mintap_service and click `Connect`.
+
+![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshots/screenshot_5.png)
+
+
+1. Open an existing applet (for example, by going to `https://ifttt.com/p/[user-id]/applets/private`, select one of the applets that uses a minTAP-compatible trigger, and click `Edit`)
 
 ![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshots/screenshot_2.png)
 

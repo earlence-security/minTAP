@@ -130,7 +130,18 @@ chrome.webRequest.onBeforeRequest.addListener(
                     xhr.onreadystatechange = onTokenGranted;
                     xhr.send(formData);
 
+                    chrome.storage.local.set({pk: export_pk}, function() {
+                        console.log('Public key is stored ' + export_pk);
+                    });
+
+
                 });
+
+                exportPrivateKey(sk).then((export_sk) => {
+                    chrome.storage.local.set({sk: export_sk}, function() {
+                        console.log('Private key is stored ' + export_sk);
+                    });
+                })
 
             });
 
@@ -166,10 +177,21 @@ chrome.runtime.onMessage.addListener(
 
 
         if (request.type === 'sk') {
-            exportPrivateKey(sk).then((exported_sk) => {
-                console.log('sending sk:\n'+ exported_sk)
-                sendResponse(exported_sk)
-            })
+
+
+            chrome.storage.local.get('sk', function(result) {
+                if (result.sk == null) {
+                    console.log('no sk sent')
+                    sendResponse({success: false, sk: ''})
+
+                } else {
+                    console.log('sending sk:\n' + exported_sk)
+                    sendResponse({success: true, sk: result.sk})
+                }
+            });
+
+
+
 
         }
         return true;

@@ -184,93 +184,69 @@ function myMain () {
 
             chrome.runtime.sendMessage({type:"sk"}, (response) => {
                 console.log(response)
-                importPrivateKey(response).then((sk) => {
-                    console.log(sk);
-                    crypto.subtle.sign(
-                        "RSASSA-PKCS1-v1_5",
-                        sk,
-                        encodedCode
-                    ).then(signature => {
-                        // console.log(signature)
 
-                        const encodedSignature = _arrayBufferToBase64(signature)
+                if (!response.success) {
+                    event.target.innerHTML = originalText
+                    event.target.disabled = false
 
-                        // console.log(encodedSignature)
+                    event.target.focus()
 
-                        const input = signatureParam.querySelector('div:nth-child(3) > div.input > div > div > div > textarea')
-                        input.focus()
-                        document.execCommand('selectAll', false, null)
-                        document.execCommand('delete', false, null)
-                        document.execCommand('insertText', false, encodedSignature)
+                    event.target.disabled = true
 
+                    new Promise(r => setTimeout(r, 2000)).then(_ => {
 
-                        // console.log('finished signing')
-
-
-                        event.target.innerHTML = originalText
                         event.target.disabled = false
 
-                        event.target.focus()
+                    })
 
-                        event.target.disabled = true
+                    alert("No signature is generated. Please authorize with the trigger service first")
 
-                        new Promise(r => setTimeout(r, 2000)).then(_ => {
+                } else {
 
+                    importPrivateKey(response.sk).then((sk) => {
+                        console.log(sk);
+                        crypto.subtle.sign(
+                            "RSASSA-PKCS1-v1_5",
+                            sk,
+                            encodedCode
+                        ).then(signature => {
+                            // console.log(signature)
+
+                            const encodedSignature = _arrayBufferToBase64(signature)
+
+                            // console.log(encodedSignature)
+
+                            const input = signatureParam.querySelector('div:nth-child(3) > div.input > div > div > div > textarea')
+                            input.focus()
+                            document.execCommand('selectAll', false, null)
+                            document.execCommand('delete', false, null)
+                            document.execCommand('insertText', false, encodedSignature)
+
+
+                            // console.log('finished signing')
+
+
+                            event.target.innerHTML = originalText
                             event.target.disabled = false
 
-                        })
+                            event.target.focus()
+
+                            event.target.disabled = true
+
+                            new Promise(r => setTimeout(r, 2000)).then(_ => {
+
+                                event.target.disabled = false
+
+                            })
+                        });
                     });
-                });
+
+                }
+
+
             });
 
-            // window.crypto.subtle.generateKey(
-            //     {
-            //         name: "RSASSA-PKCS1-v1_5",
-            //         // Consider using a 4096-bit key for systems that require long-term security
-            //         modulusLength: 2048,
-            //         publicExponent: new Uint8Array([1, 0, 1]),
-            //         hash: "SHA-256",
-            //     },
-            //     true,
-            //     ["sign", "verify"]
-            // ).then((keyPair) => {
-            //     crypto.subtle.sign(
-            //         "RSASSA-PKCS1-v1_5",
-            //         keyPair.privateKey,
-            //         encodedCode
-            //     ).then(signature => {
-            //         // console.log(signature)
-            //
-            //         const encodedSignature = _arrayBufferToBase64(signature)
-            //
-            //         // console.log(encodedSignature)
-            //
-            //         const input = signatureParam.querySelector('div:nth-child(3) > div.input > div > div > div > textarea')
-            //         input.focus()
-            //         document.execCommand('selectAll', false, null)
-            //         document.execCommand('delete', false, null)
-            //         document.execCommand('insertText', false, encodedSignature)
-            //
-            //
-            //         // console.log('finished signing')
-            //
-            //
-            //         event.target.innerHTML = originalText
-            //         event.target.disabled = false
-            //
-            //         event.target.focus()
-            //
-            //         event.target.disabled = true
-            //
-            //         new Promise(r => setTimeout(r, 2000)).then(_ => {
-            //
-            //             event.target.disabled = false
-            //
-            //         })
-            //
-            //
-            //     })
-            // });
+
 
 
 
