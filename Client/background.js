@@ -185,7 +185,7 @@ chrome.runtime.onMessage.addListener(
                     sendResponse({success: false, sk: ''})
 
                 } else {
-                    console.log('sending sk:\n' + exported_sk)
+                    console.log('sending sk:\n' + result.sk)
                     sendResponse({success: true, sk: result.sk})
                 }
             });
