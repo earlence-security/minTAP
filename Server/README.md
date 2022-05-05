@@ -32,11 +32,11 @@ The service should be registered as `minTAP example service` in IFTTT and provid
 1. Create a new service in https://ifttt.com/services/new. 
 In the remaining steps, we assume the service is named `mintap_service`.
 
-1. Create a new trigger for the service, set the `Endpoint` field to `mintap_toy_trigger` and add the following trigger fields and ingredients.
+1. Create a new trigger for the service, set its `Endpoint` field to `mintap_toy_trigger` and add the following trigger fields and ingredients.
 
-![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshots/screenshot_6.jpg)
+![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshots/screenshot_6.png)
 
-![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshots/screenshot_7.jpg)
+![alt text](https://raw.githubusercontent.com/EarlMadSec/minTAP/master/screenshots/screenshot_7.png)
 
 
 1. In the `API` tab of the service (e.g., https://platform.ifttt.com/services/mintap_service/api), fill the `IFTTT API URL` field with the URL path to the minTAP-compatible service (i.e., port 5000 on the server host machine). 
